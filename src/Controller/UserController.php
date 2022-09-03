@@ -17,7 +17,7 @@ class UserController extends AbstractController implements SidebarItemInterface
     #[Route('/user', name: 'user')]
     public function index(TranslatorInterface $translator): Response
     {
-        $response = $this->api->request($this->getUserToken(), 'GET', '/user', []);
+        $response = $this->request('GET', '/user');
         if ($response->hasNoAuth()) {
             return $this->logout();
         }
@@ -35,7 +35,7 @@ class UserController extends AbstractController implements SidebarItemInterface
         $users = array_map(
             function ($user) use ($translator) {
                 $roles = array_map(
-                    fn($role) => $translator->trans($role),
+                    fn ($role) => $translator->trans($role),
                     $user['roles']
                 );
                 $roles[] = $translator->trans('ROLE_USER', [], 'security');
@@ -61,14 +61,10 @@ class UserController extends AbstractController implements SidebarItemInterface
             }
         }
 
-        $response = $this->api->request($this->getUserToken(), 'GET', '/user/' . $id, []);
+        $response = $this->request('GET', '/user/' . $id);
 
         if ($response->hasNoAuth()) {
             return $this->logout();
-        }
-
-        if ($response->notFound()) {
-            throw $this->createNotFoundException();
         }
 
         if (!$response->isSuccess()) {

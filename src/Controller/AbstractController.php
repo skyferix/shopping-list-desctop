@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Request\ApiRequest;
@@ -34,5 +36,15 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
     protected function isSimpleUser(): bool
     {
         return !($this->isGranted('ROLE_SUPER_ADMIN') && $this->isGranted('ROLE_ADMIN'));
+    }
+
+    protected function request(string $method, string $relativeUrl, array $options = []): ApiRequest
+    {
+        $response = $this->api->request($this->getUserToken(), $method, $relativeUrl, $options);
+        if ($response->notFound()) {
+            throw $this->createNotFoundException();
+        }
+
+        return $response;
     }
 }
