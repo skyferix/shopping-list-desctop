@@ -1,0 +1,9 @@
+{% extends 'main-base.html.twig' %}
+
+{% block title %}
+    {% trans from 'sidebar' %}module.invitation{% endtrans %}
+{% endblock %}
+
+{% block innerbody %}
+    {{ component('table', {title: 'module.invitation', data: invitation ?? []}) }}
+{% endblock %}
