@@ -2,3 +2,4 @@ error:
     500: 'Something went wrong try again later'
     401: 'Invalid credentials'
 Invalid CSRF token.: 'Invalid CSRF token. Try to login again'
+ROLE_USER: 'user'
