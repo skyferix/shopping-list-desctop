@@ -11,5 +11,6 @@ require('mdb-ui-kit');
 import '../styles/app.scss';
 import '../styles/mdb-ui-kit.scss';
 
+require('./../scripts/table');
 // start the Stimulus application
 import '../bootstrap';
