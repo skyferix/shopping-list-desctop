@@ -113,6 +113,6 @@ class ApiRequest
             $number /= 10;
         }
 
-        return $number;
+        return (int)$number;
     }
 }
