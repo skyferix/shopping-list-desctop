@@ -4,4 +4,3 @@ module:
     products: 'Products'
 footer:
     logout: 'Logout'
-admin: 'Administrator'

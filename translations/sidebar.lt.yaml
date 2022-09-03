@@ -4,4 +4,3 @@ module:
     products: 'Produktai'
 footer:
     logout: 'Atsijungti'
-admin: 'Administratorius'

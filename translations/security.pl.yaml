@@ -3,3 +3,5 @@ error:
     401: 'E-mail lub hasło są nieprawidłowe'
 Invalid CSRF token.: 'Niepravidłowy żeton CSRF. Próbuj ponownie'
 ROLE_USER: 'użytkownik'
+ROLE_ADMIN: 'Administrator'
+ROLE_SUPER_ADMIN: 'główny administrator'
