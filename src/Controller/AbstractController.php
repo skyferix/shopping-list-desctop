@@ -35,7 +35,7 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
 
     protected function isSimpleUser(): bool
     {
-        return !($this->isGranted('ROLE_SUPER_ADMIN') && $this->isGranted('ROLE_ADMIN'));
+        return !$this->isGranted('ROLE_ADMIN');
     }
 
     protected function request(string $method, string $relativeUrl, array $options = []): ApiRequest

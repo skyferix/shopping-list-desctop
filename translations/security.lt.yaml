@@ -4,4 +4,3 @@ error:
 Invalid CSRF token.: 'Neteisinga CSRF žymė. Bandykite dar kartą'
 ROLE_USER: 'naudotojas'
 ROLE_ADMIN: 'administratorius'
-ROLE_SUPER_ADMIN: 'pagrindinis administratorius'

@@ -4,4 +4,3 @@ error:
 Invalid CSRF token.: 'Invalid CSRF token. Try to login again'
 ROLE_USER: 'user'
 ROLE_ADMIN: 'administrator'
-ROLE_SUPER_ADMIN: 'main administrator'
