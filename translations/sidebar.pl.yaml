@@ -4,3 +4,4 @@ module:
     products: 'Produkty'
 footer:
     logout: 'Wyloguj'
+admin: 'Administrator'
