@@ -4,40 +4,39 @@ declare(strict_types=1);
 
 namespace App\Request;
 
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use App\UseCase\Logger\ApiLoggerUseCase;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ApiRequest
 {
-    private HttpClientInterface $client;
-    private string $apiBaseUrl;
+    const LOGIN_URL = '/login';
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+
     private ResponseInterface $response;
     private array $headers;
     private mixed $content;
     private int $statusCode;
-    private ?string $token;
+    private ?string $token = null;
 
-    public function __construct(string $apiBaseUrl, HttpClientInterface $client)
-    {
-        $this->client = $client;
-        $this->apiBaseUrl = $apiBaseUrl;
-        $this->token = null;
+    public function __construct(
+        private string              $apiBaseUrl,
+        private HttpClientInterface $client,
+        private ApiLoggerUseCase    $loggerUseCase,
+        private bool                $debug
+    ) {
     }
 
-    public function login(string $relativeUrl, array $data = [], array $options = []): ApiRequest
+    public function login(array $data = []): ApiRequest
     {
-        try {
-            $this->response = $this->client->request('POST', $this->apiBaseUrl . $relativeUrl, array_merge(['json' => $data], $options));
-            $token = $this->response->getContent();
-        } catch (TransportExceptionInterface|ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
-            $this->statusCode = $e->getCode();
-        }
+        $this->basicRequest(self::METHOD_POST, self::LOGIN_URL, $data);
+        $token = $this->response->getContent(false);
 
-        $this->token = json_decode($token ?? '')?->token;
+        if (Response::HTTP_OK === $this->getStatusCode()) {
+            $this->token = json_decode($token ?? '')?->token;
+        }
 
         return $this;
     }
@@ -46,14 +45,23 @@ class ApiRequest
     {
         $options['auth_bearer'] = $token;
 
-        try {
-            $this->response = $this->client->request($method, $this->apiBaseUrl . $relativeUrl, array_merge(['json' => $data], $options));
-            $this->statusCode = $this->response->getStatusCode();
-            $this->content = $this->response->getContent();
-            $this->headers = $this->response->getHeaders();
-        } catch (TransportExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|ClientExceptionInterface $e) {
-            $this->statusCode = $e->getCode();
-        }
+        $this->basicRequest($method, $relativeUrl, $data, $options);
+
+        return $this;
+    }
+
+    public function basicRequest(string $method, string $relativeUrl, array $data = [], array $options = []): ApiRequest
+    {
+        $url = $this->apiBaseUrl . $relativeUrl;
+        $data = array_merge(['json' => $data], $options);
+
+        $this->response = $this->client->request($method, $url, $data);
+
+        $this->loggerUseCase->log($method, $url, $this->response);
+
+        $this->statusCode = $this->response->getStatusCode();
+        $this->content = $this->response->getContent($this->debug);
+        $this->headers = $this->response->getHeaders($this->debug);
 
         return $this;
     }

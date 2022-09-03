@@ -38,7 +38,7 @@ class TokenAuthenticator extends AbstractLoginFormAuthenticator
         $request->getSession()->set(Security::LAST_USERNAME, $email);
         $password = $request->request->get('password', '');
 
-        $response = $this->api->login('/login', [
+        $response = $this->api->login([
             'email' => $email,
             'password' => $password
         ]);
