@@ -28,25 +28,26 @@ class ApiRequest
         $this->token = null;
     }
 
-    public function login(string $relativeUrl, array $options = []): ApiRequest{
+    public function login(string $relativeUrl, array $data = [], array $options = []): ApiRequest
+    {
         try {
-            $this->response = $this->client->request('POST', $this->apiBaseUrl . $relativeUrl, $options);
+            $this->response = $this->client->request('POST', $this->apiBaseUrl . $relativeUrl, array_merge(['json' => $data], $options));
             $token = $this->response->getContent();
         } catch (TransportExceptionInterface|ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
             $this->statusCode = $e->getCode();
         }
 
-        $this->token = json_decode($token??'')?->token;
+        $this->token = json_decode($token ?? '')?->token;
 
         return $this;
     }
 
-    public function request(string $token, string $method, string $relativeUrl, array $options = []): ApiRequest
+    public function request(string $token, string $method, string $relativeUrl, array $data = [], array $options = []): ApiRequest
     {
         $options['auth_bearer'] = $token;
 
         try {
-            $this->response = $this->client->request($method, $this->apiBaseUrl . $relativeUrl, $options);
+            $this->response = $this->client->request($method, $this->apiBaseUrl . $relativeUrl, array_merge(['json' => $data], $options));
             $this->statusCode = $this->response->getStatusCode();
             $this->content = $this->response->getContent();
             $this->headers = $this->response->getHeaders();
@@ -57,7 +58,7 @@ class ApiRequest
         return $this;
     }
 
-    public function getToken(): string
+    public function getToken(): string|null
     {
         return $this->token;
     }
@@ -67,9 +68,9 @@ class ApiRequest
         return $this->response;
     }
 
-    public function getContent()
+    public function getContent(bool $assoc = false)
     {
-        return $this->content;
+        return json_decode($this->content, $assoc);
     }
 
     public function getStatusCode(): int
@@ -82,13 +83,36 @@ class ApiRequest
         return $this->headers;
     }
 
+    public function generateError(): string
+    {
+        return $this->generateErrorBasedOnStatusCode($this->statusCode);
+    }
+
     public function generateErrorBasedOnStatusCode(int $statusCode): string
     {
-        return match ($statusCode){
+        return match ($statusCode) {
             400 => 'error.400',
             401 => 'error.401',
-            460 => 'error.460',
             default => 'error.500',
         };
+    }
+
+    public function hasNoAuth(): bool
+    {
+        return 401 === $this->statusCode;
+    }
+
+    public function isSuccess(): bool
+    {
+        return 2 === $this->getFirstDigit($this->statusCode);
+    }
+
+    private function getFirstDigit(int $number): int
+    {
+        while ($number > 9) {
+            $number /= 10;
+        }
+
+        return $number;
     }
 }
