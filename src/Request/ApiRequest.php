@@ -107,6 +107,11 @@ class ApiRequest
         return 2 === $this->getFirstDigit($this->statusCode);
     }
 
+    public function notFound(): bool
+    {
+        return 404 === $this->statusCode;
+    }
+
     private function getFirstDigit(int $number): int
     {
         while ($number > 9) {
