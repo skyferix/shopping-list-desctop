@@ -1,10 +1,98 @@
 html, body {
-    padding: 0;
-    margin: 0;
-    min-height: 100%;
-    height: 100%;
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+  background-color: #EDEADE !important;
 }
 
-.btn{
-    text-transform: none;
+.btn {
+  text-transform: none;
+}
+
+select.paginator {
+  display: block;
+  height: inherit;
+  padding: 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+ul.pagination {
+  margin-bottom: 0;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 5px;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #0d6efd;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #50afe4;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #0d6efd;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #0d6efd;
+}
+
+tr:first-child td:first-child {
+  border-top-left-radius: 10px;
+}
+
+tr:first-child td:last-child {
+  border-top-right-radius: 10px;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+tr:first-child td {
+  border-top-style: solid;
+}
+
+tr td:first-child {
+  border-left-style: solid;
 }
