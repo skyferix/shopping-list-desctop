@@ -17,17 +17,22 @@ class AbstractController extends \Symfony\Bundle\FrameworkBundle\Controller\Abst
         $this->error = null;
     }
 
-    public function logout(): RedirectResponse
+    protected function logout(): RedirectResponse
     {
         $this->addFlash('error', 'error.460');
         return new RedirectResponse($this->generateUrl('logout'));
     }
 
-    public function getUserToken(): string
+    protected function getUserToken(): string
     {
         /** @var User $user */
         $user = $this->getUser();
 
         return $user->getToken();
+    }
+
+    protected function isSimpleUser(): bool
+    {
+        return !($this->isGranted('ROLE_SUPER_ADMIN') && $this->isGranted('ROLE_ADMIN'));
     }
 }
