@@ -29,7 +29,7 @@
                         </thead>
                         <tbody class="datatable-body">
                         {% for row in data %}
-                            <tr class="border border-info" scope="row" data-mdb-index="0">
+                            <tr data-id="{{ row.id }}" class="border border-info" scope="row" data-mdb-index="0">
                                 {% for col in row %}
                                     <td data-mdb-field="field_0">{{ col }}</td>
                                 {% endfor %}
