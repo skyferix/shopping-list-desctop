@@ -1,0 +1,9 @@
+{% extends 'main-base.html.twig' %}
+
+{% block title %}
+    {% trans from 'sidebar' %}module.users{% endtrans %}
+{% endblock %}
+
+{% block innerbody %}
+    {{ component('table', {title: 'module.users', data: users ?? []}) }}
+{% endblock %}
