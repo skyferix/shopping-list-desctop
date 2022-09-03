@@ -8,6 +8,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class User implements UserInterface
 {
+    private ?int $id = null;
+
     private ?string $email;
 
     private array $roles = [];
@@ -91,5 +93,13 @@ class User implements UserInterface
         return $this->name . ' ' . $this->surname;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
 }

@@ -33,7 +33,8 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
         $userData = $content;
 
         $user = new User();
-
+        
+        $user->setId($userData->id ?? null);
         $user->setEmail($userData->email);
         $user->setRoles($userData->roles);
         $user->setName($userData->name ?? null);
