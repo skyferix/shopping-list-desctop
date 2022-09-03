@@ -9,10 +9,11 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('language-switcher')]
 class LanguageSwitcherComponent
 {
-    public function type(string $type=null):string {
-        return match ($type){
+    public function type(string $type = null): string
+    {
+        return match ($type) {
             'up' => 'dropup',
-            default  => ''
+            default => ''
         };
     }
 

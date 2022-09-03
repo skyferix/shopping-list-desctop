@@ -22,10 +22,10 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     public function loadUserByIdentifier($token): UserInterface
     {
-        $response = $this->request->request($token,'GET','/user/current');
+        $response = $this->request->request($token, 'GET', '/user/current');
 
         $statusCode = $response->getStatusCode();
-        if(200 !== $statusCode){
+        if (200 !== $statusCode) {
             return new User();
         }
 

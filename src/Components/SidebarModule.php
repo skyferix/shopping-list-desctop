@@ -26,7 +26,8 @@ class SidebarModule
         $this->translator = $translator;
     }
 
-    public function translation():string {
-        return $this->translator->trans($this->trans,[],'sidebar');
+    public function translation(): string
+    {
+        return $this->translator->trans($this->trans, [], 'sidebar');
     }
 }

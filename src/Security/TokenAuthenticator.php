@@ -39,10 +39,11 @@ class TokenAuthenticator extends AbstractLoginFormAuthenticator
         $password = $request->request->get('password', '');
 
         $response = $this->api->login('/login', [
-            'json' => ['email' => $email, 'password' => $password]
+            'email' => $email,
+            'password' => $password
         ]);
 
-        if($token = $response->getToken()){
+        if ($token = $response->getToken()) {
             return new SelfValidatingPassport(new UserBadge($token), [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
             ]);
@@ -51,7 +52,7 @@ class TokenAuthenticator extends AbstractLoginFormAuthenticator
         $statusCode = $response->getStatusCode();
 
         $error = $response->generateErrorBasedOnStatusCode($statusCode);
-        throw new CustomUserMessageAuthenticationException($error,[],$statusCode);
+        throw new CustomUserMessageAuthenticationException($error, [], $statusCode);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

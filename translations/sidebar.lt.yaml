@@ -1,5 +1,5 @@
 title: 'Apsipirkimų sąrašo TVS'
-modules:
+module:
     users: 'Naudotojai'
     products: 'Produktai'
 footer:

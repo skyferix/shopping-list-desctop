@@ -1,5 +1,5 @@
 title: 'Shopping list CMS'
-modules:
+module:
     users: 'Users'
     products: 'Products'
 footer:
