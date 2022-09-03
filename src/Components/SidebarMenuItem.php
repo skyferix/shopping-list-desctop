@@ -7,12 +7,9 @@ namespace App\Components;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('sidebar-module')]
-class SidebarModule
+#[AsTwigComponent('sidebar-menu-item')]
+class SidebarMenuItem
 {
-
-    private TranslatorInterface $translator;
-
     public string $path;
 
     public string $src;
@@ -21,9 +18,8 @@ class SidebarModule
 
     public int $dimension = 22;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     public function translation(): string

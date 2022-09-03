@@ -1,6 +1,5 @@
 title: 'CMS listy zakupów'
 module:
-    users: 'Uźytkownicy'
-    products: 'Produkty'
+    user: 'Użytkownicy'
 footer:
     logout: 'Wyloguj'

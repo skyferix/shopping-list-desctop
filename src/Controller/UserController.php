@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Security\User;
+use App\UseCase\Sidebar\SidebarItem;
+use App\UseCase\Sidebar\SidebarItemInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserController extends AbstractController
+class UserController extends AbstractController implements SidebarItemInterface
 {
     #[Route('/user', name: 'user')]
     public function index(TranslatorInterface $translator): Response
@@ -82,5 +84,15 @@ class UserController extends AbstractController
         return $this->render('user/view.html.twig', [
             'user' => $user
         ]);
+    }
+
+    public function getSidebarItem(): SidebarItem
+    {
+        return new SidebarItem('user', 'user-256.png');
+    }
+
+    public function getSidebarSupport(): bool
+    {
+        return $this->isGranted('ROLE_ADMIN');
     }
 }

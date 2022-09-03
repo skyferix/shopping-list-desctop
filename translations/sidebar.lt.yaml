@@ -1,6 +1,5 @@
 title: 'Apsipirkimų sąrašo TVS'
 module:
-    users: 'Naudotojai'
-    products: 'Produktai'
+    user: 'Naudotojai'
 footer:
     logout: 'Atsijungti'
